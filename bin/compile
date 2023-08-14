@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
+set -exuo pipefail
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+
+cd $BUILD_DIR
+
+cd service/text2img
+pip3 install -r requirements.txt
+cd -
+
+# save space on slug
+rm -rf \
+  .DS_Store \
+  .git/ \
+  .github/ \
+  .ruby-lsp/ \
+  astro_charts_etc/ \
+  cli/ \
+  design/ \
+  guardrails/ \
+  infra/ \
+  spikes/ \
+  ui/ \
+
+du -sh .
+du -sh *
+
+exit 0
