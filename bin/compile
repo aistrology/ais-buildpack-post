@@ -9,9 +9,9 @@ ENV_DIR=${3:-}
 
 cd $BUILD_DIR
 
-cd service/text2img
-pip3 install -r requirements.txt
-cd -
+#cd service/text2img
+#pip3 install -r requirements.txt
+#cd -
 
 # save space on slug
 rm -rf \
