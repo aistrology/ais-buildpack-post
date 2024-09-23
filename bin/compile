@@ -27,6 +27,16 @@ rm -rf \
   spikes/ \
   ui/ \
 
+cd saturn
+pwd
+ls -la
+# cd $(bin/bundle show wkhtmltopdf-binary)/bin
+cd ~/saturn/vendor/bundle/ruby/*/gems/wkhtmltopdf-binary-*/bin
+mv wkhtmltopdf_ubuntu_22.04_amd64.gz /tmp/
+rm *.gz
+mv /tmp/wkhtmltopdf_ubuntu_22.04_amd64.gz ./
+
+cd "${BUILD_DIR}"
 du -sh .
 du -sh *
 
