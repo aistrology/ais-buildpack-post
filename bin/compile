@@ -40,7 +40,7 @@ du -sh .
 du -sh * | sort -hr
 
 # cd $(bin/bundle show wkhtmltopdf-binary)/bin
-cd /app/saturn/vendor/bundle/ruby/*/gems/wkhtmltopdf-binary-*/bin
+cd /app/saturn/vendor/bundle/ruby/3.2.0/gems/wkhtmltopdf-binary-0.12.6.8/bin
 mv wkhtmltopdf_ubuntu_22.04_amd64.gz /tmp/
 rm *.gz
 mv /tmp/wkhtmltopdf_ubuntu_22.04_amd64.gz ./
