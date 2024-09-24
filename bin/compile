@@ -22,15 +22,11 @@ rm -rf \
   .ruby-lsp/ \
   astro_charts_etc/ \
   astrolog/versions/7.60/dev/ \
-  astrolog/versions/7.60/dev/ \
-  cli/ \
   cli/ \
   design/ \
   guardrails/ \
-  guardrails/ \
   infra/ \
   spikes/ \
-  ui/ \
   ui/ \
 
 cd saturn
@@ -39,13 +35,11 @@ pwd
 du -sh .
 du -sh * | sort -hr
 
-# cd $(bin/bundle show wkhtmltopdf-binary)/bin
-cd /app/saturn/vendor/bundle/ruby/3.2.0/gems/wkhtmltopdf-binary-0.12.6.8/bin
-mv wkhtmltopdf_ubuntu_22.04_amd64.gz /tmp/
-rm *.gz
-mv /tmp/wkhtmltopdf_ubuntu_22.04_amd64.gz ./
-
-cd "${BUILD_DIR}"
+# # cd $(bin/bundle show wkhtmltopdf-binary)/bin
+# cd /app/saturn/vendor/bundle/ruby/3.2.0/gems/wkhtmltopdf-binary-0.12.6.8/bin
+# mv wkhtmltopdf_ubuntu_22.04_amd64.gz /tmp/
+# rm *.gz
+# mv /tmp/wkhtmltopdf_ubuntu_22.04_amd64.gz ./
 
 # TODO lock wkhtmltopdf version to ensure compatible with pdfkit
 # if [[ $(wkhtmltopdf --version) != *"wkhtmltopdf 0.12.5"* ]]; then
