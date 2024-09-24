@@ -38,4 +38,7 @@ du -sh *
 #   exit 1
 # fi
 
+sudo apt clean || apt clean || true
+sudo apt autoremove --purge || apt autoremove --purge || true
+
 exit 0
