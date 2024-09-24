@@ -16,21 +16,21 @@ pwd
 
 # save space on slug
 rm -rf \
-  astrolog/versions/7.60/dev/ \
-  cli/ \
-  guardrails/ \
-  ui/ \
   .DS_Store \
   .git/ \
   .github/ \
   .ruby-lsp/ \
   astro_charts_etc/ \
   astrolog/versions/7.60/dev/ \
+  astrolog/versions/7.60/dev/ \
+  cli/ \
   cli/ \
   design/ \
   guardrails/ \
+  guardrails/ \
   infra/ \
   spikes/ \
+  ui/ \
   ui/ \
 
 cd saturn
