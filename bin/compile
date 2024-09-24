@@ -8,19 +8,18 @@ CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
 cd $BUILD_DIR
+pwd
 
 #cd service/text2img
 #pip3 install -r requirements.txt
 #cd -
 
-pwd
-
 # save space on slug
 rm -rf \
-  ../astrolog/versions/7.60/dev/ \
-  ../cli/ \
-  ../guardrails/ \
-  ../ui/ \
+  astrolog/versions/7.60/dev/ \
+  cli/ \
+  guardrails/ \
+  ui/ \
   .DS_Store \
   .git/ \
   .github/ \
@@ -31,13 +30,12 @@ rm -rf \
   design/ \
   guardrails/ \
   infra/ \
-  saturn/tmp/ \
   spikes/ \
-  tmp/ \
   ui/ \
 
 cd saturn
 pwd
+
 du -sh .
 du -sh * | sort -hr
 
