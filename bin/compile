@@ -39,6 +39,14 @@ pwd
 du -sh .
 du -sh * | sort -hr
 
+# cd $(bin/bundle show wkhtmltopdf-binary)/bin
+cd /app/saturn/vendor/bundle/ruby/*/gems/wkhtmltopdf-binary-*/bin
+mv wkhtmltopdf_ubuntu_22.04_amd64.gz /tmp/
+rm *.gz
+mv /tmp/wkhtmltopdf_ubuntu_22.04_amd64.gz ./
+
+cd "${BUILD_DIR}"
+
 # TODO lock wkhtmltopdf version to ensure compatible with pdfkit
 # if [[ $(wkhtmltopdf --version) != *"wkhtmltopdf 0.12.5"* ]]; then
 #   echo "wkhtmltopdf version is not 0.12.5"
