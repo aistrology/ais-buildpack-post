@@ -24,6 +24,7 @@ rm -rf \
   design/ \
   guardrails/ \
   infra/ \
+  saturn/tmp/ \
   spikes/ \
   tmp/ \
   ui/ \
