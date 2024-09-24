@@ -25,20 +25,18 @@ rm -rf \
   guardrails/ \
   infra/ \
   spikes/ \
+  tmp/ \
   ui/ \
 
 cd saturn
 pwd
 du -sh .
-du -sh *
+du -sh * | sort -hr
 
 # TODO lock wkhtmltopdf version to ensure compatible with pdfkit
 # if [[ $(wkhtmltopdf --version) != *"wkhtmltopdf 0.12.5"* ]]; then
 #   echo "wkhtmltopdf version is not 0.12.5"
 #   exit 1
 # fi
-
-sudo apt clean || apt clean || true
-sudo apt autoremove --purge || apt autoremove --purge || true
 
 exit 0
