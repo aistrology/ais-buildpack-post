@@ -43,6 +43,8 @@ if [ -z "${SE_EPHE_PATH:-}" ] && command-v ruby >/dev/null 2>&1; then
 fi
 EOF
 
+cat "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh"
+
 # EPHEMERIS_DATA_DIR="$(bundle info astroscript --path)/vendor/swe_data"
 
 # # Create a .profile.d script that sets a default only if not already provided.
