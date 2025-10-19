@@ -67,16 +67,14 @@ resolve_with_ruby() {
 EPHE=""
 EPHE="$(resolve_with_bundle)"
 if [ -n "$EPHE" ]; then
-  # echo "Resolved Swiss Ephemeris data path with bundle: $EPHE"
+  echo "Resolved Swiss Ephemeris data path with bundle: $EPHE"
 else
   # echo "Failed to resolve Swiss Ephemeris data path with bundle, trying ruby"
   EPHE="$(resolve_with_ruby)"
 fi
 
 if [ -n "$EPHE" ]; then
-  # echo "Resolved Swiss Ephemeris data path with ruby: $EPHE"
-else
-  # echo "Failed to resolve Swiss Ephemeris data path with ruby"
+  echo "Resolved Swiss Ephemeris data path with ruby: $EPHE"
 fi
 
 if [ -n "$EPHE" ]; then
