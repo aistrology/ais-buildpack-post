@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
-set -exuo pipefail
+set -euo pipefail
+set -x
 
 BUILD_DIR=${1}
 CACHE_DIR=${2}
@@ -31,20 +32,31 @@ pwd
 du -sh .
 du -sh * | sort -hr
 
-EPHEMERIS_DATA_DIR="$(bundle info astroscript --path)/vendor/swe_data"
-
-# Create a .profile.d script that sets a default only if not already provided.
 mkdir -p "$BUILD_DIR/.profile.d"
-{
-  echo '# Set defaults without overriding user-provided config vars.'
-  # The backslash before $ prevents expansion *now*; the double quotes
-  # ensure the backslash is not written to the file, so the runtime shell
-  # sees ${SE_EPHE_PATH:=...} correctly.
-  echo ": \"\${SE_EPHE_PATH:=$EPHEMERIS_DATA_DIR}\""
-  echo 'export SE_EPHE_PATH'
-} > "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh"
+cat > "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh" <<'EOF'
+# Do not override operator-provided value.
+if [ -z "${SE_EPHE_PATH:-}" ] && command-v ruby >/dev/null 2>&1; then
+  _dir="$(ruby -e 'spec = Gem::Specification.find_all_by_name("astroscript").first; puts File.join(spec.gem_dir, "vendor", "swe_data") if spec')"
+  if [ -n "$_dir" ] && [ -d "$_dir" ]; then
+    export SE_EPHE_PATH="$_dir"
+  fi
+fi
+EOF
 
-(set -x && cat "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh")
+# EPHEMERIS_DATA_DIR="$(bundle info astroscript --path)/vendor/swe_data"
+
+# # Create a .profile.d script that sets a default only if not already provided.
+# mkdir -p "$BUILD_DIR/.profile.d"
+# {
+#   echo '# Set defaults without overriding user-provided config vars.'
+#   # The backslash before $ prevents expansion *now*; the double quotes
+#   # ensure the backslash is not written to the file, so the runtime shell
+#   # sees ${SE_EPHE_PATH:=...} correctly.
+#   echo ": \"\${SE_EPHE_PATH:=$EPHEMERIS_DATA_DIR}\""
+#   echo 'export SE_EPHE_PATH'
+# } > "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh"
+
+# (set -x && cat "$BUILD_DIR/.profile.d/00-aistrologer-buildpack-env.sh")
 
 # EPHEMERIS_DATA_DIR=$(bundle info astroscript --path)/vendor/swe_data
 # # cp -r $EPHEMERIS_DATA_DIR $BUILD_DIR/saturn
