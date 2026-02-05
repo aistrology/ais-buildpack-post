@@ -43,6 +43,22 @@ rm -rf tmp/
 rm -rf spec/ test/ playwright/ playwright-report/
 rm -rf ai-dev/ .devcontainer/ .openhands/
 
+# JS source - already compiled into public/vite/assets by Vite
+rm -rf app/javascript/
+
+# Swisseph: remove test data, windows builds, satellite ephemeris, and asteroid name file
+rm -rf vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/setest/
+rm -rf vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/windows/
+rm -rf vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/ephe/sat/
+rm -f  vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/ephe/seasnam.txt
+
+# tiktoken: remove .so files for Ruby versions we're not running (keep 3.2 only)
+rm -rf vendor/bundle/ruby/*/gems/tiktoken_ruby-*/lib/tiktoken_ruby/3.3/
+rm -rf vendor/bundle/ruby/*/gems/tiktoken_ruby-*/lib/tiktoken_ruby/3.4/
+
+# Stripe: remove Sorbet type definitions (not needed at runtime)
+rm -rf vendor/bundle/ruby/*/gems/stripe-*/rbi/
+
 # Vite source maps (optional - remove if you don't need them in production)
 # find public/vite -name '*.map' -delete
 
@@ -66,6 +82,8 @@ echo ""
 echo "--- Files over 5MB ---"
 find . -type f -size +5M -exec du -sh {} \; | sort -hr
 echo "===== END DIAGNOSTICS ====="
+
+
 
 # --- Create runtime export for SE_EPHE_PATH (resolved at dyno boot) ---
 mkdir -p "$BUILD_DIR/.profile.d"
