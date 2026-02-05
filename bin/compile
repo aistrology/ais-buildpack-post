@@ -11,7 +11,8 @@ ENV_DIR=${3}
 cd $BUILD_DIR
 pwd
 
-# save space on slug
+# ---- CLEANUP: remove build-time artifacts not needed at runtime ----
+
 rm -rf \
   .DS_Store \
   .git/ \
@@ -29,8 +30,42 @@ rm -rf \
 cd saturn
 pwd
 
+# Node modules - not needed after Vite has compiled assets
+rm -rf node_modules/
+
+# Bundler gem cache (the .gem tarballs, not the installed gems)
+rm -rf vendor/bundle/ruby/*/cache/
+
+# Build temp files
+rm -rf tmp/
+
+# Test/dev files that may have survived
+rm -rf spec/ test/ playwright/ playwright-report/
+rm -rf ai-dev/ .devcontainer/ .openhands/
+
+# Vite source maps (optional - remove if you don't need them in production)
+# find public/vite -name '*.map' -delete
+
+# ---- DIAGNOSTICS ----
+
+echo "===== SLUG SIZE DIAGNOSTICS ====="
 du -sh .
-du -sh * | sort -hr
+echo ""
+echo "--- Top-level directories (depth 1) ---"
+du -sh * 2>/dev/null | sort -hr
+echo ""
+echo "--- Two levels deep (top 30) ---"
+du -sh */* 2>/dev/null | sort -hr | head -30
+echo ""
+echo "--- vendor/ breakdown ---"
+du -sh vendor/*/* 2>/dev/null | sort -hr | head -20
+echo ""
+echo "--- public/ breakdown ---"
+du -sh public/*/* 2>/dev/null | sort -hr | head -20
+echo ""
+echo "--- Files over 5MB ---"
+find . -type f -size +5M -exec du -sh {} \; | sort -hr
+echo "===== END DIAGNOSTICS ====="
 
 # --- Create runtime export for SE_EPHE_PATH (resolved at dyno boot) ---
 mkdir -p "$BUILD_DIR/.profile.d"
