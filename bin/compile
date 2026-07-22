@@ -52,9 +52,16 @@ rm -rf vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/windows/
 rm -rf vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/ephe/sat/
 rm -f  vendor/bundle/ruby/*/gems/swisseph-*/ext/swisseph/swisseph_src/ephe/seasnam.txt
 
-# tiktoken: remove .so files for Ruby versions we're not running (keep 3.2 only)
-rm -rf vendor/bundle/ruby/*/gems/tiktoken_ruby-*/lib/tiktoken_ruby/3.3/
-rm -rf vendor/bundle/ruby/*/gems/tiktoken_ruby-*/lib/tiktoken_ruby/3.4/
+# tiktoken ships one ~10 MB native .so per Ruby ABI (3.2/3.3/3.4). Keep only the
+# ABI matching each installed bundle; drop the rest to shrink the slug.
+for tk in vendor/bundle/ruby/*/gems/tiktoken_ruby-*/lib/tiktoken_ruby; do
+  [ -d "$tk" ] || continue
+  keep=${tk#*ruby/}; keep=${keep%%/*}; keep=${keep%.*}  # .../ruby/3.3.0/... -> 3.3
+  for d in "$tk"/*/; do
+    v=$(basename "$d")
+    case "$v" in [0-9]*.[0-9]*) [ "$v" = "$keep" ] || rm -rf "$d" ;; esac
+  done
+done
 
 # Stripe: remove Sorbet type definitions (not needed at runtime)
 rm -rf vendor/bundle/ruby/*/gems/stripe-*/rbi/
